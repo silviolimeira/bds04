@@ -19,12 +19,12 @@ public class CityService {
 
 	@Autowired
 	private CityRepository repository;
-	
+
 	public List<CityDTO> findAll() {
 		List<City> list = repository.findAll(Sort.by("name"));
 		return list.stream().map(x -> new CityDTO(x)).collect(Collectors.toList());
 	}
-	
+
 	@Transactional
 	public @Valid CityDTO insert(@Valid CityDTO dto) {
 		City entity = new City();

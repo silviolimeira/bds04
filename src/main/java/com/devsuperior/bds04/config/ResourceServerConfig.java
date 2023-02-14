@@ -29,15 +29,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Autowired
 	private Environment env;
-	
+
 	@Autowired
 	private JwtTokenStore tokenStore;
-	
+
 	private static final String[] PUBLIC = { "/oauth/token", "/console/**" };
-	
+
 	private static final String[] OPERATOR_OR_ADMIN = { "/cities/**", "/events/**" };
-	 
-	private static final String[] ADMIN = { "/cities/**" };	
+
+	private static final String[] ADMIN = { "/cities/**" };
 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -51,39 +51,35 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
-		
-		http.authorizeRequests()
-		.antMatchers(PUBLIC).permitAll()
-		.antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).permitAll()
-		.antMatchers(OPERATOR_OR_ADMIN).hasAnyRole("ADMIN", "OPERATOR")
-		.antMatchers(ADMIN).hasRole("ADMIN")
-		.anyRequest().authenticated();
-		
+
+		http.authorizeRequests().antMatchers(PUBLIC).permitAll().antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN)
+				.permitAll().antMatchers(OPERATOR_OR_ADMIN).hasAnyRole("ADMIN", "OPERATOR").antMatchers(ADMIN)
+				.hasRole("ADMIN").anyRequest().authenticated();
+
 		http.cors().configurationSource(corsConfigurationSource());
 	}
-	
+
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 
 		String[] origins = corsOrigins.split(",");
 
-	    CorsConfiguration corsConfig = new CorsConfiguration();
-	    corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
-	    corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
-	    corsConfig.setAllowCredentials(true);
-	    corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-	 
-	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**", corsConfig);
-	    return source;
+		CorsConfiguration corsConfig = new CorsConfiguration();
+		corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
+		corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
+		corsConfig.setAllowCredentials(true);
+		corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", corsConfig);
+		return source;
 	}
 
 	@Bean
 	FilterRegistrationBean<CorsFilter> corsFilter() {
-	    FilterRegistrationBean<CorsFilter> bean
-	            = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
-	    bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-	    return bean;
+		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(
+				new CorsFilter(corsConfigurationSource()));
+		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		return bean;
 	}
 }
-

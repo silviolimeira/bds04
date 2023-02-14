@@ -11,7 +11,7 @@ public class UserInsertDTO extends UserDTO {
 	UserInsertDTO() {
 		super();
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}

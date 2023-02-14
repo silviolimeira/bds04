@@ -11,21 +11,21 @@ import com.devsuperior.bds04.entities.Event;
 
 public class EventInsertDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
-	
+
 	@NotBlank(message = "Campo requerido")
 	private String name;
-	
+
 	@FutureOrPresent(message = "A data do evento não pode ser passada")
 	private LocalDate date;
-	
+
 	@NotBlank(message = "Campo requerido")
 	private String url;
-	
+
 	@NotNull(message = "Campo requerido")
 	private Long cityId;
-	
+
 	public EventInsertDTO() {
 	}
 
@@ -36,7 +36,7 @@ public class EventInsertDTO implements Serializable {
 		this.url = url;
 		this.cityId = cityId;
 	}
-	
+
 	public EventInsertDTO(Event entity) {
 		id = entity.getId();
 		name = entity.getName();

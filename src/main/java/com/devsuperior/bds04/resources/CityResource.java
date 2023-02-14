@@ -23,18 +23,17 @@ public class CityResource {
 
 	@Autowired
 	private CityService service;
-	
+
 	@GetMapping
 	public ResponseEntity<List<CityDTO>> findAll() {
-		List<CityDTO> list = service.findAll();		
+		List<CityDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<CityDTO> insert(@Valid @RequestBody CityDTO dto) {
 		dto = service.insert(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(dto.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
-	}	
+	}
 }
