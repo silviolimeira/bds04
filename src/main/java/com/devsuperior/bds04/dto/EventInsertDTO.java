@@ -8,10 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.devsuperior.bds04.entities.Event;
-import com.devsuperior.bds04.services.validations.EventInsertValid;
 
-@EventInsertValid
-public class EventDTO implements Serializable {
+public class EventInsertDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
@@ -25,13 +23,13 @@ public class EventDTO implements Serializable {
 	@NotBlank(message = "Campo requerido")
 	private String url;
 	
-	@NotNull(message = "Deve ser fornecida a cidade")
+	@NotNull(message = "Campo requerido")
 	private Long cityId;
 	
-	public EventDTO() {
+	public EventInsertDTO() {
 	}
 
-	public EventDTO(Long id, String name, LocalDate date, String url, Long cityId) {
+	public EventInsertDTO(Long id, String name, LocalDate date, String url, Long cityId) {
 		this.id = id;
 		this.name = name;
 		this.date = date;
@@ -39,7 +37,7 @@ public class EventDTO implements Serializable {
 		this.cityId = cityId;
 	}
 	
-	public EventDTO(Event entity) {
+	public EventInsertDTO(Event entity) {
 		id = entity.getId();
 		name = entity.getName();
 		date = entity.getDate();
